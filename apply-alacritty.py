@@ -91,12 +91,13 @@ except KeyError:
     print("Note that alacritty following release 0.13.0 uses toml configuration.")
     sys.exit(1)
 
-# make sure the user is okay with having their config changed
-answer = input("This script will update your alacritty config at: \n" +
-               conf_path + "\nIt is recommended to make a copy of this file before proceeding.\nAre you sure you want to continue? (Y/N)\n")
-if answer.lower() not in ['y', 'yes']:
-    print("Aborted")
-    sys.exit(1)
+if os.getenv('NO_PROMPT') not in ['1', 'true', 'yes']:
+    # make sure the user is okay with having their config changed
+    answer = input("This script will update your alacritty config at: \n" +
+                conf_path + "\nIt is recommended to make a copy of this file before proceeding.\nAre you sure you want to continue? (Y/N)\n")
+    if answer.lower() not in ['y', 'yes']:
+        print("Aborted")
+        sys.exit(1)
 
 # Write alacritty config
 if conf_path.endswith('yml'):
